@@ -1,0 +1,93 @@
+/* =========================================================
+   HOJA DE ESTILOS EXTERNA - CV ONLINE
+========================================================= */
+
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f9;
+    color: #333333;
+    margin: 0;
+}
+
+header {
+    background-color: #2c3e50;
+    color: #ffffff;
+    text-align: center;
+    padding: 30px 10px;
+}
+
+header h1 { margin: 0; font-size: 2.5rem; }
+header h2 { margin: 0; font-size: 1.2rem; font-weight: 300; color: #bdc3c7; }
+
+/* REGLA DE ALTA ESPECIFICIDAD (100 PUNTOS POR ID)
+   Aunque está más arriba en el archivo, su peso es enorme.
+*/
+#principal, #panel-lateral {
+    background-color: #ffffff;
+    padding: 30px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* REGLA DE CLASE (10 PUNTOS)
+   Le da un fondo azul claro a todas las tarjetas.
+   #principal y #panel-lateral ignorarán este color porque su ID es más fuerte.
+*/
+.tarjeta {
+    background-color: #e8f4f8;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 8px;
+    border: 1px solid #d0e4eb;
+}
+
+/* CLASE PARA DEMOSTRAR HERENCIA
+   El color rojo se propagará automáticamente a las listas <ul> y <ol> contenidas.
+*/
+.tema-destacado {
+    color: #e74c3c;
+}
+
+.titulo-seccion {
+    color: #2c3e50;
+    border-bottom: 2px solid #2c3e50;
+    padding-bottom: 5px;
+}
+
+/* BOTÓN ORIGINAL (10 PUNTOS)
+*/
+.btn-principal {
+    background-color: #2c3e50; /* Azul oscuro */
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 12px 24px;
+    border-radius: 5px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+footer {
+    background-color: #ecf0f1;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+footer a {
+    color: #2c3e50;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* =========================================================
+   DEMOSTRACIÓN DE LA CASCADA
+   Esta regla tiene exactamente el mismo peso (10 puntos) que la de arriba.
+   Como está al final del archivo, sobrescribe el color de fondo.
+========================================================= */
+.btn-principal {
+    background-color: #27ae60; /* Verde esmeralda */
+}

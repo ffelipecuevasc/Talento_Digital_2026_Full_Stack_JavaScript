@@ -1,0 +1,38 @@
+/* =========================================================
+   HOJA DE ESTILOS EXTERNA - CV ONLINE
+========================================================= */
+
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f9;
+    color: #333333;
+    margin: 0;
+}
+
+/* =========================================================
+   MODO OSCURO (DARK THEME)
+========================================================= */
+body.dark-theme,
+body.dark-theme .bg-light,
+body.dark-theme .bg-white ,
+body.dark-theme .card{
+    background-color: #121212 !important;
+    color: #e0e0e0 !important;
+    border-color: #2a2a2a !important;
+}
+
+/* =========================================================
+   RETO 1
+========================================================= */
+.borde-error {
+    border: 2px solid #dc3545 !important; /* Rojo llamativo */
+    box-shadow: 0 0 8px rgba(220, 53, 69, 0.5) !important;
+}
+
+/* =========================================================
+   RETO 2
+========================================================= */
+.ocultar-habilidad {
+    display: none !important;
+}

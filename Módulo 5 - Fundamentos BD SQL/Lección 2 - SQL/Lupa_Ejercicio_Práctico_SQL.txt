@@ -1,0 +1,87 @@
+-- ==============================================================================
+-- BOOTCAMP DB: EJERCICIO INTEGRAL - FINANZAS PERSONALES
+-- Motor: MySQL 8.0
+-- ==============================================================================
+
+-- 1. DDL: Preparación del Entorno
+CREATE DATABASE IF NOT EXISTS finanzas_bootcamp;
+USE finanzas_bootcamp;
+
+DROP TABLE IF EXISTS finanzas_personales;
+
+CREATE TABLE finanzas_personales (
+    nombre VARCHAR(50) PRIMARY KEY,
+    me_debe INTEGER DEFAULT 0,
+    cuotas_cobrar INTEGER DEFAULT 0,
+    le_debo INTEGER DEFAULT 0,
+    cuotas_pagar INTEGER DEFAULT 0
+);
+
+-- 2. DML: Inserción de los datos iniciales
+INSERT INTO finanzas_personales (nombre, me_debe, cuotas_cobrar, le_debo, cuotas_pagar) VALUES 
+('tía carmen', 0, 0, 5000, 1),
+('papá', 0, 0, 15000, 3),
+('nacho', 10000, 2, 7000, 1),
+('almacén esquina', 0, 0, 13000, 2),
+('vicios varios', 0, 0, 35000, 35),
+('compañero trabajo', 50000, 5, 0, 0);
+
+-- ==============================================================================
+-- 3. RESOLUCIÓN DE REQUERIMIENTOS (Q1 - Q10)
+-- ==============================================================================
+
+-- Q1. A quién(es) le debe más dinero y cuánto
+SELECT nombre, le_debo 
+FROM finanzas_personales 
+ORDER BY le_debo DESC 
+LIMIT 1;
+
+-- Q2. Quién(es) le debe más dinero a ud. y cuánto
+SELECT nombre, me_debe 
+FROM finanzas_personales 
+ORDER BY me_debe DESC 
+LIMIT 1;
+
+-- Q3. Cuánto dinero debe en total
+SELECT SUM(le_debo) AS total_deuda 
+FROM finanzas_personales;
+
+-- Q4. Cuánto dinero debe en promedio (considerando solo a los que les debe algo)
+SELECT ROUND(AVG(le_debo)) AS promedio_deuda 
+FROM finanzas_personales 
+WHERE le_debo > 0;
+
+-- Q5. Suponiendo que no puede pagar más de una cuota al mes. ¿Cuántos meses demoraría?
+-- Respuesta Estándar
+SELECT SUM(cuotas_pagar) AS meses 
+FROM finanzas_personales;
+
+-- Respuesta Experta (Años y Meses)
+SELECT 
+    FLOOR(SUM(cuotas_pagar) / 12) AS años, 
+    MOD(SUM(cuotas_pagar), 12) AS meses 
+FROM finanzas_personales;
+
+-- Q6. Nueva deuda reducida y nuevo valor de cuota promedio (357)
+SELECT 
+    (SUM(le_debo) - SUM(me_debe)) AS nueva_deuda_reducida,
+    ROUND((SUM(le_debo) - SUM(me_debe)) / SUM(cuotas_pagar)) AS valor_cuota
+FROM finanzas_personales;
+
+-- Q7. Insertar a la pareja (¡el problema sorpresa!)
+INSERT INTO finanzas_personales (nombre, me_debe, cuotas_cobrar, le_debo, cuotas_pagar) 
+VALUES ('pareja', 0, 0, 50000, 1);
+
+-- Q8. ¿De cuánto será la cuota a pagar este mes? (74500)
+-- Dividimos lo que debemos por las cuotas, sumando cada obligación mensual.
+SELECT SUM(le_debo / NULLIF(cuotas_pagar, 0)) AS cuota_mes 
+FROM finanzas_personales;
+
+-- Q9. Update: la señora del almacén te permite pagar en 13 cuotas
+UPDATE finanzas_personales 
+SET cuotas_pagar = 13 
+WHERE nombre = 'almacén esquina';
+
+-- Q10. Recálculo de la cuota a pagar este mes con el ajuste
+SELECT SUM(le_debo / NULLIF(cuotas_pagar, 0)) AS cuota_mes_actualizada 
+FROM finanzas_personales;

@@ -1,0 +1,142 @@
+-- ==============================================================================
+-- BOOTCAMP DB: EJERCICIO PRÁCTICO - DDL / DML
+-- Motor: MySQL 8.0
+-- ==============================================================================
+
+CREATE DATABASE IF NOT EXISTS retail_sence;
+USE retail_sence;
+
+-- ==============================================================================
+-- P1. Crear las tablas del diagrama [cite: 266]
+-- ==============================================================================
+DROP TABLE IF EXISTS detalles_facturas;
+DROP TABLE IF EXISTS existencias;
+DROP TABLE IF EXISTS facturas;
+DROP TABLE IF EXISTS productos;
+
+CREATE TABLE productos (
+    id_producto INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    precio DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE existencias (
+    id_existencia INT AUTO_INCREMENT PRIMARY KEY,
+    id_producto INT NOT NULL,
+    cantidad INT DEFAULT 0,
+    pesokg DECIMAL(5, 2), -- Columna que eliminaremos en el P9 [cite: 274]
+    CONSTRAINT fk_existencia_producto FOREIGN KEY (id_producto) 
+        REFERENCES productos(id_producto) ON DELETE CASCADE
+);
+
+CREATE TABLE facturas (
+    id_factura INT AUTO_INCREMENT PRIMARY KEY,
+    cliente VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE detalles_facturas (
+    id_detalle INT AUTO_INCREMENT PRIMARY KEY,
+    id_factura INT NOT NULL,
+    id_producto INT NOT NULL,
+    cantidad INT NOT NULL,
+    precio_unitario DECIMAL(10, 2) NOT NULL,
+    CONSTRAINT fk_detalle_factura FOREIGN KEY (id_factura) 
+        REFERENCES facturas(id_factura) ON DELETE CASCADE,
+    CONSTRAINT fk_detalle_producto FOREIGN KEY (id_producto) 
+        REFERENCES productos(id_producto) ON DELETE CASCADE
+);
+
+-- ==============================================================================
+-- P2. Insertar 10 registros en productos [cite: 267]
+-- ==============================================================================
+INSERT INTO productos (nombre, precio) VALUES 
+('Laptop Dell', 850.00), ('Mouse Inalámbrico', 25.00), ('Teclado Mecánico', 75.00),
+('Monitor 24"', 150.00), ('Cable HDMI', 10.00), ('Disco SSD 1TB', 100.00),
+('Memoria RAM 16GB', 60.00), ('Silla Ergonomica', 200.00), ('Escritorio', 120.00),
+('Webcam 1080p', 45.00);
+
+-- ==============================================================================
+-- P3. Insertar existencias para todos los productos [cite: 268]
+-- ==============================================================================
+INSERT INTO existencias (id_producto, cantidad, pesokg) VALUES 
+(1, 15, 2.5), (2, 50, 0.2), (3, 30, 0.8), (4, 20, 4.5), (5, 100, 0.1),
+(6, 40, 0.3), (7, 60, 0.1), (8, 10, 15.0), (9, 5, 25.0), (10, 25, 0.4);
+
+-- ==============================================================================
+-- P4. Insertar 5 registros en facturas [cite: 269]
+-- ==============================================================================
+INSERT INTO facturas (cliente) VALUES 
+('Empresa Alpha'), ('Startup Beta'), ('Consultora Gamma'), ('Tech Solutions'), ('Devops SPA');
+
+-- ==============================================================================
+-- P5. Insertar el detalle para todas las facturas (3 a 5 productos) [cite: 270]
+-- ==============================================================================
+-- Asumimos precios estáticos para el ejemplo de la inserción
+INSERT INTO detalles_facturas (id_factura, id_producto, cantidad, precio_unitario) VALUES 
+-- Factura 1 (3 productos)
+(1, 1, 2, 850.00), (1, 2, 5, 25.00), (1, 4, 2, 150.00),
+-- Factura 2 (4 productos)
+(2, 3, 1, 75.00), (2, 5, 10, 10.00), (2, 8, 4, 200.00), (2, 10, 2, 45.00),
+-- Factura 3 (3 productos)
+(3, 1, 5, 850.00), (3, 6, 5, 100.00), (3, 7, 10, 60.00),
+-- Factura 4 (5 productos)
+(4, 2, 2, 25.00), (4, 3, 2, 75.00), (4, 4, 2, 150.00), (4, 5, 5, 10.00), (4, 10, 1, 45.00),
+-- Factura 5 (3 productos)
+(5, 8, 1, 200.00), (5, 9, 1, 120.00), (5, 4, 1, 150.00);
+
+-- ==============================================================================
+-- P6. Actualizar todas las existencias dejando cantidad = 10 
+-- ==============================================================================
+UPDATE existencias 
+SET cantidad = 10; 
+
+-- ==============================================================================
+-- P7. Agregar la columna fecha a facturas [cite: 272]
+-- ==============================================================================
+ALTER TABLE facturas 
+ADD COLUMN fecha DATE;
+
+-- ==============================================================================
+-- P8. Actualizar fecha con valores distintos para cada factura [cite: 273]
+-- ==============================================================================
+UPDATE facturas SET fecha = '2023-10-01' WHERE id_factura = 1;
+UPDATE facturas SET fecha = '2023-10-05' WHERE id_factura = 2;
+UPDATE facturas SET fecha = '2023-10-10' WHERE id_factura = 3;
+UPDATE facturas SET fecha = '2023-10-15' WHERE id_factura = 4;
+UPDATE facturas SET fecha = '2023-10-20' WHERE id_factura = 5;
+
+-- ==============================================================================
+-- P9. Eliminar la columna pesokg de existencias [cite: 274]
+-- ==============================================================================
+ALTER TABLE existencias 
+DROP COLUMN pesokg;
+
+-- ==============================================================================
+-- P10. Consultar una factura mostrando detalle, nombre del producto y precio [cite: 275]
+-- ==============================================================================
+SELECT 
+    f.id_factura, 
+    f.cliente, 
+    p.nombre AS nombre_producto, 
+    df.cantidad, 
+    df.precio_unitario,
+    (df.cantidad * df.precio_unitario) AS subtotal_linea
+FROM facturas f
+JOIN detalles_facturas df ON f.id_factura = df.id_factura
+JOIN productos p ON df.id_producto = p.id_producto
+WHERE f.id_factura = 1;
+
+-- ==============================================================================
+-- P11. Consultar el valor final de una factura [cite: 276]
+-- ==============================================================================
+SELECT 
+    id_factura, 
+    SUM(cantidad * precio_unitario) AS valor_final_factura
+FROM detalles_facturas
+WHERE id_factura = 1
+GROUP BY id_factura;
+
+-- ==============================================================================
+-- P12. Eliminar todos los productos 
+-- ==============================================================================
+DELETE FROM productos;

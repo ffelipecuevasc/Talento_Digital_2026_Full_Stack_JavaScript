@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Actividad Integradora - DOM y Eventos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans min-h-screen p-8">
+
+<main class="max-w-4xl mx-auto space-y-8">
+  <header class="text-center mb-10">
+    <h1 class="text-3xl font-bold text-blue-600">Actividad Práctica: Fundamentos del DOM</h1>
+    <p class="text-gray-500">Ejercicios: Repetir, Aplicar, Calcular e Invertir</p>
+  </header>
+
+  <section class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500">
+    <h2 class="text-xl font-bold mb-4 text-blue-600">1. REPETIR</h2>
+    <div class="flex gap-4 mb-4">
+      <div class="flex-1">
+        <label class="block text-sm font-semibold mb-1">Palabra:</label>
+        <input type="text" id="palabra-input" class="w-full border rounded p-2" placeholder="Ej: Hola">
+      </div>
+      <div class="flex-1">
+        <label class="block text-sm font-semibold mb-1">¿Cuántas veces?</label>
+        <input type="number" id="veces-input" class="w-full border rounded p-2" placeholder="Ej: 8" min="1">
+      </div>
+    </div>
+    <button id="btn-repetir" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">REPETIR</button>
+    <div class="mt-4 p-3 bg-gray-50 border rounded min-h-[50px] text-gray-700" id="resultado-repetir">
+    </div>
+  </section>
+
+  <section class="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-500">
+    <h2 class="text-xl font-bold mb-4 text-green-600">2. APLICAR</h2>
+    <div class="flex items-center gap-4 mb-4">
+      <label class="font-semibold">Selecciona un color:</label>
+      <input type="color" id="color-input" class="w-12 h-10 cursor-pointer">
+      <button id="btn-aplicar" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">APLICAR</button>
+    </div>
+    <p id="parrafo-aplicar" class="p-4 border rounded transition-colors duration-300">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    </p>
+  </section>
+
+  <section class="bg-white p-6 rounded-lg shadow-md border-l-4 border-purple-500">
+    <h2 class="text-xl font-bold mb-4 text-purple-600">3. CALCULAR</h2>
+    <div class="flex gap-4 mb-4">
+      <div class="flex-1">
+        <label class="block text-sm font-semibold mb-1">Número 1:</label>
+        <input type="number" id="num1-input" class="w-full border rounded p-2" placeholder="Ej: 5">
+      </div>
+      <div class="flex-1">
+        <label class="block text-sm font-semibold mb-1">Número 2:</label>
+        <input type="number" id="num2-input" class="w-full border rounded p-2" placeholder="Ej: 10">
+      </div>
+    </div>
+    <button id="btn-calcular" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition">CALCULAR</button>
+    <div class="mt-4 p-3 bg-gray-50 border rounded min-h-[100px] text-gray-700 font-mono" id="resultado-calcular">
+    </div>
+  </section>
+
+  <section class="bg-white p-6 rounded-lg shadow-md border-l-4 border-red-500">
+    <h2 class="text-xl font-bold mb-4 text-red-600">4. INVERTIR</h2>
+    <div class="mb-4">
+      <label class="block text-sm font-semibold mb-1">Texto a invertir:</label>
+      <input type="text" id="texto-invertir-input" class="w-full border rounded p-2" placeholder="Ej: Holanda que talca">
+    </div>
+    <button id="btn-invertir" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">INVERTIR</button>
+    <div class="mt-4 p-3 bg-gray-50 border rounded min-h-[50px] text-gray-700 font-mono" id="resultado-invertir">
+    </div>
+  </section>
+</main>
+
+<script src="scripts.js"></script>
+</body>
+</html>

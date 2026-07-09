@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rick and Morty API - Ejercicio Práctico</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans min-h-screen p-6">
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+  <header class="mb-6 text-center border-b pb-4">
+    <h1 class="text-3xl font-bold text-green-600">Rick and Morty API</h1>
+    <p class="text-gray-500 mt-2">Consumo y Optimización de API REST</p>
+  </header>
+
+  <div class="flex flex-wrap gap-4 justify-center mb-8">
+    <button id="btn-get-all" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow transition">
+      Obtener 10 Personajes
+    </button>
+    <button id="btn-group-species" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded shadow transition hidden">
+      Agrupar por Especie
+    </button>
+    <button id="btn-show-card" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded shadow transition hidden">
+      Ficha Individual (Rick)
+    </button>
+    <button id="btn-clear" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded shadow transition">
+      Limpiar Pantalla y Caché
+    </button>
+  </div>
+
+  <main id="results-container" class="space-y-6">
+    <p class="text-center text-gray-400 italic" id="placeholder-text">Los resultados aparecerán aquí...</p>
+  </main>
+</div>
+
+<script src="scripts.js"></script>
+</body>
+</html>

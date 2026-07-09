@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejercicio Práctico - Modelado de Clases</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-100 p-8 font-sans min-h-screen">
+
+<main class="max-w-5xl mx-auto">
+  <header class="mb-8 border-b border-gray-700 pb-4">
+    <h1 class="text-3xl font-bold text-blue-400">Modelado de Clases (POO)</h1>
+    <p class="text-gray-400 mt-2">Integración de Escenarios: Taxis Urbanos, Catálogo Sony y Sumatoria Interactiva.</p>
+  </header>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+
+    <div class="bg-gray-800 rounded-lg p-6 shadow-xl border border-gray-700 lg:col-span-1">
+      <h2 class="text-xl font-semibold text-purple-400 mb-4">3. Clase Sumatoria</h2>
+      <p class="text-sm text-gray-400 mb-4">Haz clic en el botón para invocar el método sumar() del objeto instanciado con base aleatoria.</p>
+
+      <button id="btn-sumar" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded w-full mb-4 transition-colors">
+        Ejecutar método sumar()
+      </button>
+
+      <div class="bg-gray-950 p-4 rounded border border-gray-700 min-h-[250px] overflow-y-auto">
+        <p id="sumatoria-salida" class="font-mono text-xs text-green-300 leading-relaxed"></p>
+      </div>
+    </div>
+
+    <div class="bg-gray-800 rounded-lg p-6 shadow-xl border border-gray-700 lg:col-span-2">
+      <h2 class="text-xl font-semibold text-green-400 mb-4">Consola de Resultados (Taxis y Catálogo):</h2>
+      <pre id="consola-salida" class="whitespace-pre-wrap text-sm text-gray-300 font-mono bg-gray-950 p-4 rounded border border-gray-700 min-h-[400px]"></pre>
+    </div>
+
+  </div>
+</main>
+
+<script src="scripts.js"></script>
+</body>
+</html>

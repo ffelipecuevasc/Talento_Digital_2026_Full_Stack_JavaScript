@@ -1,0 +1,71 @@
+-- ==============================================================================
+-- BOOTCAMP DB: EJERCICIO INTEGRAL - FILTROS Y PATRONES
+-- Motor: MySQL 8.0
+-- ==============================================================================
+
+-- 1. DDL: Preparación del Entorno
+CREATE DATABASE IF NOT EXISTS bootcamp_sence;
+USE bootcamp_sence;
+
+DROP TABLE IF EXISTS clientes;
+
+CREATE TABLE clientes (
+    rut VARCHAR(20) PRIMARY KEY,
+    nombre VARCHAR(20),
+    edad INTEGER
+);
+
+-- 2. DML: Inserción de datos de prueba (Mock Data)
+-- Estos datos están pensados para que cada consulta devuelva al menos un resultado.
+INSERT INTO clientes (rut, nombre, edad) VALUES 
+('13133133-3', 'Juan', 30),
+('12345678-9', 'mario', 20),
+('13444555-1', 'Diego', 25),
+('19999888-2', 'Pepa', 45),
+('11222333-4', 'marcos', 38), 
+('13555666-1', 'Pato', 50),
+('22333444-5', 'Ana', 26),
+('18777666-1', 'Mario', 60),
+('15666777-K', 'Paula', 35);
+
+-- ==============================================================================
+-- 3. DML: RESOLUCIÓN DE LOS REQUERIMIENTOS (R1 - R8)
+-- ==============================================================================
+
+-- R1: Todos los clientes con rut 13133133-3. [cite: 22]
+SELECT * FROM clientes
+WHERE rut = '13133133-3';
+
+-- R2: Todos los clientes mayores de 25 años. [cite: 25]
+SELECT * FROM clientes
+WHERE edad > 25;
+
+-- R3: Todos los clientes que no se llamen "Mario". [cite: 28]
+-- Nota MySQL: LIKE o la igualdad '=' ya son insensibles a mayúsculas/minúsculas.
+SELECT * FROM clientes
+WHERE nombre NOT LIKE 'mario';
+
+-- R4: Todos los clientes con rut empezado en 13. [cite: 33]
+SELECT * FROM clientes
+WHERE rut LIKE '13%';
+
+-- R5: Todos los clientes con nombre finalizado en a. [cite: 36]
+SELECT * FROM clientes
+WHERE nombre LIKE '%a';
+
+-- R6: Todos los clientes con nombre empezado en p y edad mayor a 34. [cite: 39]
+SELECT * FROM clientes
+WHERE nombre LIKE 'p%' 
+  AND edad > 34;
+
+-- R7: Todos los clientes con rut empezado en 1, nombre no empezado en m y edad menor a 40. [cite: 49]
+SELECT * FROM clientes
+WHERE rut LIKE '1%' 
+  AND nombre NOT LIKE 'm%' 
+  AND edad < 40;
+
+-- R8: Todos los clientes con rut empezado en 13 o terminado en 1, con nombres en Diego, Mario, Pato, Pepa y edad entre 20 y 80 (incluidos). 
+SELECT * FROM clientes
+WHERE (rut LIKE '13%' OR rut LIKE '%1') 
+  AND nombre IN ('Diego', 'Mario', 'Pato', 'Pepa') 
+  AND edad BETWEEN 20 AND 80;

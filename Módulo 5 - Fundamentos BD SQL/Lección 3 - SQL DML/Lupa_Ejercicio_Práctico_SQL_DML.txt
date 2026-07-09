@@ -1,0 +1,104 @@
+-- ==============================================================================
+-- BOOTCAMP DB: EJERCICIO INTEGRAL - LLAVES, DDL/DML Y AGREGACIÓN
+-- Motor: MySQL 8.0
+-- ==============================================================================
+
+-- ------------------------------------------------------------------------------
+-- 1. DDL: CREACIÓN DE TABLAS E INTEGRIDAD REFERENCIAL
+-- ------------------------------------------------------------------------------
+CREATE DATABASE IF NOT EXISTS banco_sence;
+USE banco_sence;
+
+DROP TABLE IF EXISTS Cuentas;
+DROP TABLE IF EXISTS Clientes;
+
+-- Tabla Padre (Clientes)
+CREATE TABLE Clientes (
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    edad INT NOT NULL,
+    -- Restricción para asegurar edades entre 18 y 85 según el requerimiento
+    CONSTRAINT chk_edad CHECK (edad BETWEEN 18 AND 85)
+);
+
+-- Tabla Hija (Cuentas)
+CREATE TABLE Cuentas (
+    id_cuenta INT AUTO_INCREMENT PRIMARY KEY,
+    id_cliente INT NOT NULL,
+    saldo DECIMAL(10, 2) NOT NULL,
+    -- Restricción para asegurar saldos entre -5.000 y 100.000
+    CONSTRAINT chk_saldo CHECK (saldo BETWEEN -5000 AND 100000),
+    -- Llave foránea con cascada en borrado y actualización
+    CONSTRAINT fk_cliente_cuenta FOREIGN KEY (id_cliente) 
+        REFERENCES Clientes(id_cliente)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+-- ------------------------------------------------------------------------------
+-- 2. DML: INSERCIÓN DE DATOS (5 Clientes y 15 Cuentas)
+-- ------------------------------------------------------------------------------
+-- Insertamos 5 clientes (edades entre 18 y 85)
+INSERT INTO Clientes (nombre, edad) VALUES 
+('Juan Pérez', 25),      -- ID 1
+('María González', 85),  -- ID 2 (Cliente de mayor edad)
+('Pedro Soto', 40),      -- ID 3
+('Ana Rojas', 20),       -- ID 4
+('Luis Martínez', 60);   -- ID 5
+
+-- Insertamos 15 cuentas distribuidas, incluyendo saldos negativos
+INSERT INTO Cuentas (id_cliente, saldo) VALUES 
+(1, 15000.00), (1, -2000.00), (1, 50000.00),             -- Juan (3 cuentas, 1 negativa)
+(2, 80000.00), (2, 25000.00),                            -- María (2 cuentas, mayor edad)
+(3, 10000.00), (3, 5000.00), (3, -500.00), (3, 1200.00), -- Pedro (4 cuentas, 1 negativa)
+(4, 90000.00), (4, 1000.00), (4, 45000.00), (4, 300.00), (4, -4000.00), -- Ana (5 cuentas, 1 negativa)
+(5, 50000.00);                                           -- Luis (1 cuenta)
+
+-- ------------------------------------------------------------------------------
+-- 3. DML: UPDATE Y DELETE
+-- ------------------------------------------------------------------------------
+-- Ajuste de saldo (sumamos 1000 al saldo de la cuenta 1)
+UPDATE Cuentas 
+SET saldo = saldo + 1000 
+WHERE id_cuenta = 1;
+
+-- Borrado de una cuenta (Borramos la cuenta 15, perteneciente a Ana)
+DELETE FROM Cuentas 
+WHERE id_cuenta = 15;
+
+-- ------------------------------------------------------------------------------
+-- 4. DQL: CONSULTAS SOLICITADAS
+-- ------------------------------------------------------------------------------
+
+-- (3) Saldo de cada cuenta del cliente de mayor edad.
+SELECT cl.nombre, cl.edad, c.saldo
+FROM Clientes cl
+JOIN Cuentas c ON cl.id_cliente = c.id_cliente
+WHERE cl.edad = (SELECT MAX(edad) FROM Clientes);
+
+-- (4) Promedio de edad de clientes con saldo negativo.
+-- Nota de Mentor: Usamos DISTINCT para no promediar dos veces la edad si un cliente tiene 2 cuentas negativas.
+SELECT AVG(edad) AS promedio_edad_deudores
+FROM Clientes
+WHERE id_cliente IN (SELECT id_cliente FROM Cuentas WHERE saldo < 0);
+
+-- (5) Nombre y cantidad de cuentas de quienes tienen más de una.
+SELECT cl.nombre, COUNT(c.id_cuenta) AS cantidad_de_cuentas
+FROM Clientes cl
+JOIN Cuentas c ON cl.id_cliente = c.id_cliente
+GROUP BY cl.id_cliente, cl.nombre
+HAVING COUNT(c.id_cuenta) > 1;
+
+-- (6) Suma de saldos por cliente para quienes tienen más de una cuenta.
+SELECT cl.nombre, SUM(c.saldo) AS saldo_total
+FROM Clientes cl
+JOIN Cuentas c ON cl.id_cliente = c.id_cliente
+GROUP BY cl.id_cliente, cl.nombre
+HAVING COUNT(c.id_cuenta) > 1;
+
+-- (7) Todos los clientes y su saldo combinado, considerando solo aquellos con al menos una cuenta con saldo negativo.
+SELECT cl.nombre, SUM(c.saldo) AS saldo_combinado
+FROM Clientes cl
+JOIN Cuentas c ON cl.id_cliente = c.id_cliente
+WHERE cl.id_cliente IN (SELECT DISTINCT id_cliente FROM Cuentas WHERE saldo < 0)
+GROUP BY cl.id_cliente, cl.nombre;

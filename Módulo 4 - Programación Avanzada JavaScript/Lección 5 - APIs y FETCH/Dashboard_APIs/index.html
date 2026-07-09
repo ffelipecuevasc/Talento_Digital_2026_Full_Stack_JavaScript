@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard de APIs | FullStack JS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans min-h-screen p-8">
+
+<div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+  <header class="mb-8 border-b pb-4">
+    <h1 class="text-3xl font-bold text-blue-600">Dashboard Integrado de APIs</h1>
+    <p class="text-gray-500 mt-2">Aplicación práctica de APIs del Navegador y de Terceros.</p>
+  </header>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+    <section class="bg-blue-50 p-6 rounded-lg border border-blue-200">
+      <h2 class="text-xl font-semibold mb-4 text-blue-700">1. APIs del Navegador</h2>
+      <div class="space-y-4">
+        <button id="btn-geo" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition">
+          Obtener mi Ubicación (Geolocation API)
+        </button>
+        <div id="geo-result" class="text-sm text-gray-700 bg-white p-3 rounded border hidden"></div>
+
+        <div class="mt-4">
+          <label class="block text-sm font-medium mb-1">Guardar última búsqueda (LocalStorage API):</label>
+          <div class="flex gap-2">
+            <input type="text" id="input-city" placeholder="Ej. Madrid" class="flex-1 border p-2 rounded">
+            <button id="btn-save-local" class="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-green-50 p-6 rounded-lg border border-green-200">
+      <h2 class="text-xl font-semibold mb-4 text-green-700">2. APIs de Terceros</h2>
+
+      <div class="space-y-4">
+        <div>
+          <h3 class="font-medium text-sm text-gray-600 mb-2">AJAX Tradicional (XHR)</h3>
+          <button id="btn-xhr" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded w-full transition">
+            Obtener Datos con XHR
+          </button>
+        </div>
+
+        <div class="pt-4 border-t border-green-200">
+          <h3 class="font-medium text-sm text-gray-600 mb-2">Fetch API Moderno (Async/Await + API Key)</h3>
+          <button id="btn-fetch" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full transition">
+            Consultar Clima (Fetch)
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="mt-8 bg-gray-900 rounded-lg p-4 shadow-inner">
+    <h2 class="text-white font-semibold mb-2 flex items-center gap-2">
+      <span class="w-3 h-3 bg-red-500 rounded-full inline-block"></span>
+      Consola de Resultados
+    </h2>
+    <pre id="output-console" class="text-green-400 text-sm overflow-x-auto whitespace-pre-wrap min-h-[150px]">Esperando interacciones...</pre>
+  </section>
+</div>
+
+<script src="scripts.js"></script>
+</body>
+</html>

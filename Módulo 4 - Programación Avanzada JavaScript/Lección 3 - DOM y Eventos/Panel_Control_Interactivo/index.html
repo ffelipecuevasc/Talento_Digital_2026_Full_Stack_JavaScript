@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Control DOM</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Clases CSS personalizadas para manipular con classList */
+    .modo-oscuro {
+      background-color: #1a202c !important;
+      color: #cbd5e0 !important;
+    }
+    .borde-resaltado {
+      border: 2px solid #3182ce;
+      box-shadow: 0 0 10px rgba(49, 130, 206, 0.5);
+    }
+  </style>
+</head>
+<body id="cuerpo-pagina" class="bg-gray-100 text-gray-800 font-sans min-h-screen p-8 transition-colors duration-300">
+
+<main class="max-w-3xl mx-auto">
+  <header class="flex justify-between items-center mb-8 border-b border-gray-300 pb-4">
+    <h1 id="titulo-principal" class="text-3xl font-bold text-blue-600">Gestor de Tareas Interactivo</h1>
+    <button id="btn-tema" class="bg-gray-800 text-white px-4 py-2 rounded shadow hover:bg-gray-700">🌙 Modo Oscuro</button>
+  </header>
+
+  <div id="zona-mensajes" class="mb-6 p-4 rounded bg-yellow-100 border border-yellow-300 hidden"></div>
+
+  <form id="form-tarea" class="bg-white p-6 rounded shadow-md mb-8">
+    <label class="block text-sm font-bold mb-2">Nueva Tarea (Prueba inyectar HTML aquí):</label>
+    <input type="text" id="input-tarea" class="w-full p-2 border rounded mb-4 focus:outline-none" placeholder="Escribe una tarea...">
+
+    <div class="flex gap-4">
+      <button type="submit" id="btn-agregar" class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600" data-estado="activo">
+        Agregar Tarea
+      </button>
+      <button type="button" id="btn-bloquear" class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-600">
+        Bloquear Sistema
+      </button>
+    </div>
+  </form>
+
+  <div class="bg-white p-6 rounded shadow-md">
+    <h2 class="text-xl font-bold mb-4">Lista de Tareas</h2>
+    <ul id="lista-tareas" class="space-y-2">
+    </ul>
+  </div>
+</main>
+
+<script src="scripts.js"></script>
+</body>
+</html>

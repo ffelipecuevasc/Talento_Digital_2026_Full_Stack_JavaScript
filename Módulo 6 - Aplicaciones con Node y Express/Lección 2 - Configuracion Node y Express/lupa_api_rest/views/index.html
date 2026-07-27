@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - API Vehículos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 p-8 font-sans">
+<div class="max-w-5xl mx-auto space-y-6">
+    <h1 class="text-3xl font-bold text-slate-800">Panel de Control: Conductores y Autos</h1>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <button onclick="fetchData('/conductores')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow transition">Ver Conductores</button>
+        <button onclick="fetchData('/automoviles')" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow transition">Ver Automóviles</button>
+        <button onclick="fetchData('/conductoressinauto?edad=20')" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded shadow transition">Conductores < 20 sin auto</button>
+        <button onclick="fetchData('/solitos')" class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded shadow transition">Solitos (Sin vínculos)</button>
+        <button onclick="fetchData('/auto?patente=ABC1234')" class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded shadow transition">Buscar Auto (ABC1234)</button>
+        <button onclick="fetchData('/auto?iniciopatente=A')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded shadow transition">Autos que inician con 'A'</button>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow-md min-h-[300px]">
+        <h2 class="text-xl font-semibold text-slate-700 border-b pb-2 mb-4">Resultados</h2>
+        <pre id="output" class="text-sm bg-slate-50 p-4 rounded text-slate-800 overflow-x-auto">Esperando acción...</pre>
+    </div>
+</div>
+
+<script>
+    const API_URL = 'http://localhost:3000';
+    const outputContainer = document.getElementById('output');
+
+    async function fetchData(endpoint) {
+        outputContainer.textContent = 'Cargando...';
+        try {
+            const response = await fetch(`${API_URL}${endpoint}`);
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || `Error HTTP: ${response.status}`);
+            }
+
+            // Formatear JSON de manera legible
+            outputContainer.textContent = JSON.stringify(data, null, 2);
+        } catch (error) {
+            outputContainer.textContent = `Error en la consulta: ${error.message}`;
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "name": "lupa_persistencia_json",
+  "version": "1.0.0",
+  "description": "Sistema bancario con persistencia JSON",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "type": "module",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
